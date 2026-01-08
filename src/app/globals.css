@@ -1,15 +1,20 @@
 @import "tailwindcss";
 
+/* 1. Definição de Variáveis de Design (Tokens) */
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
+  --regal-green: #214F2B;
+  --regal-cream: #F7F3EA;
+  --title-size: clamp(2.5rem, 8vw, 4rem);
+  --subtitle-size: clamp(1.5rem, 4vw, 2rem);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --section-max-width: 1152px; 
+  --section-px-mobile: 1rem;
+  --section-px-desktop: 2.5rem;
+  
+  /* Pilha de fontes "Apple Style" */
+  --font-apple: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +24,218 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 2. Integração com Tailwind v4 */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-regal-green: var(--regal-green);
+  --color-regal-cream: var(--regal-cream);
+
+  /* Unificando as fontes para o padrão Apple solicitado */
+  --font-sans: var(--font-apple);
+  --font-mono: var(--font-apple); /* Títulos agora seguem o mesmo estilo */
+  --font-fantasy: "Androgy Demo", var(--font-apple);
+  --font-abril: "Abril Fatface", serif;
+
+  --spacing-container: 1100px;
+}
+
+/* 3. Fontes Externas */
+@font-face {
+  font-family: "Androgy Demo";
+  src: url('/fonts/Androgy Demo.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 4. Estilos Globais */
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-apple);
+    font-weight: 400; /* Peso baixo para o corpo do texto */
+    @apply antialiased;
+  }
+}
+
+/* 5. Componentes e Classes de Layout */
+@layer components {
+  
+  .content-wrapper {
+    width: 100%;
+    max-width: var(--section-max-width);
+    margin: 0 auto;
+    padding-left: var(--section-px-mobile);
+    padding-right: var(--section-px-mobile);
+  }
+
+  @media (min-width: 640px) {
+    .content-wrapper {
+      padding-left: var(--section-px-desktop);
+      padding-right: var(--section-px-desktop);
+    }
+  }
+
+  /* Título Principal - Estilo Apple: Helvetica-like, peso alto */
+  .mtitle {
+    font-family: var(--font-apple);
+    font-size: var(--title-size);
+    font-weight: 700; /* Peso extra-bold para destaque */
+    letter-spacing: -0.02em; /* Títulos Apple costumam ter tracking negativo */
+    color: var(--regal-green);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+  }
+    .mtitle2 {
+    font-family: var(--font-apple);
+    font-size: var(--title-size);
+    font-weight: 700; /* Peso extra-bold para destaque */
+    letter-spacing: -0.02em; /* Títulos Apple costumam ter tracking negativo */
+    color: var(--regal-cream);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+  }
+  .msubtitle2 {
+    font-family: var(--font-apple);
+    font-size: var(--subtitle-size);
+    font-weight: 500; /* Peso extra-bold para destaque */
+    letter-spacing: -0.02em; /* Títulos Apple costumam ter tracking negativo */
+    color: var(--regal-cream);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+  }
+
+
+  .mgrid-lateral {
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 2rem;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .mgrid-lateral {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  /* Texto do Grid - Mesma fonte, peso baixo */
+  .mgrid-lateral-text {
+    font-family: var(--font-apple);
+    font-size: 1.8rem;
+    font-weight: 500; /* Peso extra-bold para destaque */
+    letter-spacing: -0.02em; /* Títulos Apple costumam ter tracking negativo */
+    color: var(--regal-green);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+  }
+
+  .mgrid-lateral-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  .mgrid-lateral-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Estilos Hero */
+  .hero2 {
+    font-family: var(--font-fantasy);
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.05;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.65);
+  }
+
+  .hero3 {
+    font-family: var(--font-apple); /* Subtítulo hero também seguindo a Apple */
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.65);
+    @apply mb-8 mt-4;
+  }
+
+  .btn-cta, .action-btn {
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transição suave Apple */
+    @apply shadow-md hover:scale-105 active:scale-95;
+  }
+
+  .btn-cta {
+    background-color: var(--regal-cream);
+    color: var(--regal-green);
+    @apply px-8 py-3 rounded-full;
+  }
+
+  .action-btn {
+    background-color: var(--regal-green);
+    color: var(--regal-cream);
+    @apply px-6 py-2;
+    border-radius: 9999px;
+  }
+
+  .gallery {
+    display: grid;
+    gap: 0.8rem;
+    /* Padrão para Celular: 1 ou 2 colunas */
+    grid-template-columns: repeat(2, 1fr); 
+  }
+
+  /* Tablet: 3 colunas (opcional) */
+  @media (min-width: 768px) {
+    .gallery {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Desktop: 4 colunas (o seu original) */
+  @media (min-width: 1024px) {
+    .gallery {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .mimage-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    aspect-ratio: 4 / 5;
+  }
+  .mgrid-gallery-image {
+    overflow: hidden;
+    border-radius:20px
+  }
+
+.mgallery-item-title {
+  font-family: var(--font-apple);
+  font-size: 1.8rem;
+  font-weight: 300; 
+  letter-spacing: -0.02em; 
+  color: var(--regal-cream); 
+  line-height: 1.1;
+  position: absolute;
+  inset: 0;
+  display: flex;       
+  flex-direction: column; 
+  justify-content: flex-end;
+  align-items: center;   
+  padding-bottom: 2rem;    
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.819) 0%, transparent 40%);
+  /* ----------------------------- */
+  
+  pointer-events: none;     /* Evita que o texto atrapalhe o clique na imagem */
+}
 }
